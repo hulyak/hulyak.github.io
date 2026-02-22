@@ -22,6 +22,12 @@
             margin-bottom: 8px;
             color: #fff;
         }
+        .app-name {
+            color: #c4a962;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
         .updated {
             color: #64748b;
             margin-bottom: 40px;
@@ -32,53 +38,184 @@
             color: #fff;
             margin: 32px 0 12px;
         }
+        h3 {
+            font-size: 1.05rem;
+            color: #c4a962;
+            margin: 20px 0 8px;
+        }
         p, li {
             font-size: 0.95rem;
             line-height: 1.7;
             color: #94a3b8;
             margin-bottom: 12px;
         }
-        ul { padding-left: 24px; }
+        ul { padding-left: 24px; margin-bottom: 12px; }
         a { color: #c4a962; text-decoration: none; }
         a:hover { text-decoration: underline; }
         .back { display: inline-block; margin-bottom: 32px; color: #c4a962; }
+        .commitment-box {
+            background: rgba(196,169,98,0.08);
+            border: 1px solid rgba(196,169,98,0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0 32px;
+        }
+        .commitment-box p {
+            margin-bottom: 8px;
+        }
+        .commitment-box p:last-child {
+            margin-bottom: 0;
+        }
+        .data-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .data-card strong {
+            color: #e2e8f0;
+        }
+        .local-only {
+            background: rgba(34,197,94,0.08);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .local-only li {
+            color: #86efac;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        .closing {
+            font-style: italic;
+            color: #c4a962;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="/" class="back">&larr; Back to Home</a>
         <h1>Privacy Policy</h1>
-        <p class="updated">Last updated: February 21, 2026</p>
+        <p class="app-name">Ramadan Fasting Prayer Times</p>
+        <p class="updated">Last Updated: February 1, 2026</p>
 
-        <h2>Overview</h2>
-        <p>Ramadan - Fasting & Prayer Times ("the App") respects your privacy. This policy explains what data we collect and how we use it.</p>
+        <p>This Privacy Policy describes how Ramadan Fasting Prayer Times ("we", "our", or "the App") collects, uses, and shares information when you use our mobile application.</p>
 
-        <h2>Data We Collect</h2>
-        <p><strong>Location Data:</strong> We use your device's location solely to calculate accurate prayer times and Qibla direction. Location data is processed on your device and is not sent to our servers.</p>
-        <p><strong>App Data:</strong> Your fasting records, Quran progress, goals, and settings are stored locally on your device using on-device storage. We do not have access to this data.</p>
+        <h2>Our Commitment to Privacy</h2>
+        <div class="commitment-box">
+            <p>We believe your spiritual journey should remain private. Our app is designed with privacy in mind:</p>
+            <ul>
+                <li><strong>No account required</strong> - Use all features without signing up</li>
+                <li><strong>Local-first storage</strong> - Your fasting records, journal entries, and bookmarks are stored on your device</li>
+                <li><strong>Minimal data collection</strong> - We only collect what's necessary for the app to function</li>
+            </ul>
+        </div>
+
+        <h2>Information We Collect</h2>
+
+        <h3>1. Location Data</h3>
+        <div class="data-card">
+            <p><strong>What:</strong> Your precise location (latitude and longitude)</p>
+            <p><strong>Why:</strong> Calculate accurate prayer times for your location, show Qibla (direction to Mecca) compass, display relevant ads based on region</p>
+            <p><strong>How it's used:</strong> Location is processed to calculate prayer times. Not stored on our servers. Not linked to your identity. Shared with Google AdMob for regional ad serving.</p>
+            <p><strong>Your control:</strong> You can deny location permission and manually enter your city instead.</p>
+        </div>
+
+        <h3>2. Device Identifiers</h3>
+        <div class="data-card">
+            <p><strong>What:</strong> Anonymous device identifier</p>
+            <p><strong>Why:</strong> Manage your subscription status (RevenueCat), serve advertisements (Google AdMob), prevent fraud in purchases</p>
+            <p><strong>How it's used:</strong> Not linked to your personal identity. Not used for cross-app tracking.</p>
+        </div>
+
+        <h3>3. Purchase Information</h3>
+        <div class="data-card">
+            <p><strong>What:</strong> Subscription status and purchase history</p>
+            <p><strong>Why:</strong> Unlock premium features you've purchased, restore purchases on new devices, remove ads for premium subscribers</p>
+            <p><strong>How it's used:</strong> Processed by RevenueCat (our subscription provider). Used solely for subscription management. Not shared with advertisers.</p>
+        </div>
+
+        <h3>4. Advertising Data</h3>
+        <div class="data-card">
+            <p><strong>What:</strong> Ad interaction data (views, clicks)</p>
+            <p><strong>Why:</strong> Display relevant non-personalized advertisements, support free access to the app</p>
+            <p><strong>How it's used:</strong> Processed by Google AdMob. We use non-personalized ads only. Not used for cross-app tracking.</p>
+        </div>
+
+        <h2>Information Stored on Your Device Only</h2>
+        <p>The following data never leaves your device:</p>
+        <div class="local-only">
+            <ul>
+                <li>Fasting records and calendar</li>
+                <li>Daily journal entries and reflections</li>
+                <li>Quran bookmarks and reading progress</li>
+                <li>Charity tracking records</li>
+                <li>App settings and preferences</li>
+                <li>Dua favorites</li>
+            </ul>
+        </div>
 
         <h2>Third-Party Services</h2>
-        <p>The App uses the following third-party services:</p>
+
+        <div class="service-card">
+            <h3>Google AdMob</h3>
+            <p><strong>Purpose:</strong> Display advertisements</p>
+            <p><strong>Data shared:</strong> Device ID, approximate location</p>
+            <p><strong>Settings:</strong> Non-personalized ads only</p>
+            <p><a href="https://policies.google.com/privacy">Google Privacy Policy</a></p>
+        </div>
+
+        <div class="service-card">
+            <h3>RevenueCat</h3>
+            <p><strong>Purpose:</strong> Manage subscriptions and purchases</p>
+            <p><strong>Data shared:</strong> Device ID, purchase transactions</p>
+            <p><a href="https://www.revenuecat.com/privacy">RevenueCat Privacy Policy</a></p>
+        </div>
+
+        <div class="service-card">
+            <h3>Al-Quran Cloud API</h3>
+            <p><strong>Purpose:</strong> Provide Quran text, translations, and audio</p>
+            <p><strong>Data shared:</strong> None (anonymous API requests)</p>
+            <p><a href="https://alquran.cloud">Website</a></p>
+        </div>
+
+        <h2>How We Protect Your Information</h2>
         <ul>
-            <li><strong>Google AdMob:</strong> Displays ads to free users. AdMob may collect device identifiers and usage data for ad personalization. You can opt out of personalized ads in your device settings. <a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
-            <li><strong>RevenueCat:</strong> Manages in-app subscriptions. RevenueCat processes purchase data through Apple's App Store. <a href="https://www.revenuecat.com/privacy">RevenueCat Privacy Policy</a></li>
-            <li><strong>Aladhan API:</strong> Provides prayer time calculations. Only your approximate location (latitude/longitude) is sent to retrieve prayer times. <a href="https://aladhan.com/privacy">Aladhan Privacy Policy</a></li>
+            <li>All network communications use HTTPS encryption</li>
+            <li>We do not maintain user accounts or databases</li>
+            <li>Local data is stored using secure device storage</li>
+            <li>We do not sell your personal information</li>
         </ul>
 
-        <h2>Data Storage</h2>
-        <p>All personal data (fasting logs, Quran progress, settings, reflections) is stored locally on your device. We do not operate servers that store your personal data.</p>
-
         <h2>Children's Privacy</h2>
-        <p>The App does not knowingly collect personal information from children under 13.</p>
+        <p>Our app does not knowingly collect personal information from children under 13. The app can be used by children under parental supervision as it does not require account creation or collection of personal information.</p>
 
-        <h2>Your Rights</h2>
-        <p>You can delete all your data at any time through the App's Settings > Reset Data option. Uninstalling the app removes all locally stored data.</p>
+        <h2>Your Rights and Choices</h2>
+        <ul>
+            <li><strong>Location:</strong> Deny location permission in device settings. Manually enter your city for prayer times.</li>
+            <li><strong>Advertising:</strong> Upgrade to Premium to remove all ads. We only show non-personalized ads.</li>
+            <li><strong>Data Deletion:</strong> Uninstall the app to delete all local data. No server-side data to delete (we don't store your data).</li>
+            <li><strong>Restore Purchases:</strong> Use "Restore Purchases" in Settings to recover premium status on new devices.</li>
+        </ul>
 
         <h2>Changes to This Policy</h2>
-        <p>We may update this policy from time to time. Changes will be reflected on this page with an updated date.</p>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by updating the "Last Updated" date at the top of this policy.</p>
 
-        <h2>Contact</h2>
-        <p>If you have questions about this privacy policy, please contact us at <a href="mailto:hulyamasharipov@gmail.com">hulyamasharipov@gmail.com</a>.</p>
+        <h2>Contact Us</h2>
+        <p>If you have questions about this Privacy Policy or our practices, please contact us at:</p>
+        <p>Email: <a href="mailto:ramadantracker@proton.me">ramadantracker@proton.me</a></p>
+
+        <p class="closing">This app respects your privacy and your spiritual journey. Your personal reflections and religious practices remain yours alone.</p>
     </div>
 </body>
 </html>
