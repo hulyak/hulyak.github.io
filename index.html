@@ -87,6 +87,11 @@ h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -0.0
 .widgets h2, .rows h2, .tiles h2, .cta h2 { font-size: clamp(32px, 4.4vw, 48px); line-height: 1.08; }
 .widgets .head p { margin: 0; color: var(--muted); font-size: 18px; }
 .showcase { border-radius: 28px; overflow: hidden; border: 1px solid var(--line); background: var(--wash); }
+.langs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+.langs .label { font-size: 14px; color: var(--muted); margin-right: 4px; }
+.langs button { font: 500 14px/1 var(--body); color: var(--ink); background: var(--sheet); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.langs button:hover { border-color: var(--forest); }
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .widget-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
 .widget-list div { background: var(--sheet); border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; }
 .widget-list h3 { font-size: 21px; margin-bottom: 6px; }
@@ -182,7 +187,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; }
         <h2>Duas and prayer times, without opening the app.</h2>
         <p>Three widgets for your Lock Screen and Home Screen. They follow the language you chose in the app and stay up to date on their own.</p>
       </div>
-      <div class="showcase"><img src="assets/widgets-hero.webp" alt="An iPhone Lock Screen showing the Maghrib countdown and the daily dua, with the Daily Dua and Next Prayer widgets beside it" width="1600" height="838" loading="lazy"></div>
+      <div class="showcase"><img id="widgetShot" src="assets/widgets-en.webp" alt="An iPhone Lock Screen showing the Maghrib countdown and the daily dua, with the Daily Dua and Next Prayer widgets beside it" width="1600" height="838" loading="lazy"></div>
+      <div class="langs" role="group" aria-label="Show the widgets in another language"><span class="label">See them in</span><button type="button" lang="en" data-lang="en" aria-pressed="true">English</button><button type="button" lang="ar" data-lang="ar" aria-pressed="false">العربية</button><button type="button" lang="tr" data-lang="tr" aria-pressed="false">Türkçe</button><button type="button" lang="id" data-lang="id" aria-pressed="false">Indonesia</button><button type="button" lang="ms" data-lang="ms" aria-pressed="false">Melayu</button><button type="button" lang="fr" data-lang="fr" aria-pressed="false">Français</button><button type="button" lang="de" data-lang="de" aria-pressed="false">Deutsch</button><button type="button" lang="ru" data-lang="ru" aria-pressed="false">Русский</button><button type="button" lang="ur" data-lang="ur" aria-pressed="false">اردو</button><button type="button" lang="hi" data-lang="hi" aria-pressed="false">हिन्दी</button><button type="button" lang="uz" data-lang="uz" aria-pressed="false">Oʻzbekcha</button></div>
       <div class="widget-list">
         <div><span class="where">Lock Screen · Home Screen</span><h3>Next Prayer</h3><p>A live countdown to the next prayer, with the time of the one before it.</p></div>
         <div><span class="where">Lock Screen · Home Screen</span><h3>Daily Dua</h3><p>A short, authentic dua with its source, new every day.</p></div>
@@ -290,5 +296,20 @@ footer a:hover { color: var(--ink); text-decoration: underline; }
   </div>
 </footer>
 
+<script>
+// The widgets follow the app's language; let visitors see them in theirs.
+(function () {
+  var shot = document.getElementById('widgetShot');
+  var buttons = document.querySelectorAll('.langs button');
+  function show(lang) {
+    shot.src = 'assets/widgets-' + lang + '.webp';
+    shot.alt = 'The Lock Screen and Home Screen widgets in ' + document.querySelector('.langs button[data-lang="' + lang + '"]').textContent;
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.lang); }); });
+  var visitor = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  if (visitor !== 'en' && document.querySelector('.langs button[data-lang="' + visitor + '"]')) show(visitor);
+})();
+</script>
 </body>
 </html>
