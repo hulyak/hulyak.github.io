@@ -1,572 +1,294 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramadan - Fasting & Prayer Times</title>
-    <meta name="description" content="Your complete Ramadan companion. Accurate prayer times, fasting tracker, Quran reading goals, daily duas, and Hijri calendar with moon sighting support.">
-    <meta name="apple-itunes-app" content="app-id=6758569733, app-argument=https://apps.apple.com/us/app/ramadan-fasting-prayer-times/id6758569733">
-    <meta property="og:title" content="Ramadan - Fasting & Prayer Times">
-    <meta property="og:description" content="Your complete Ramadan companion. Prayer times, fasting tracker, Quran goals, and daily duas.">
-    <meta property="og:image" content="https://hulyak.github.io/icon.png">
-    <meta property="og:url" content="https://hulyak.github.io">
-    <link rel="icon" type="image/png" href="icon.png">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
-            color: #fff;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Islamic Fasting Calendar — Sunnah fasting, prayer times & duas</title>
+<meta name="description" content="Plan and track Sunnah fasts all year, see prayer times and a daily dua on your Lock Screen, and read the Quran in your own language. Free, private, works offline.">
+<meta name="theme-color" content="#F3F1E9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111917" media="(prefers-color-scheme: dark)">
+<meta name="apple-itunes-app" content="app-id=6758569733">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Islamic Fasting Calendar">
+<meta property="og:description" content="Sunnah fasting, prayer times and a daily dua — on your Lock Screen and Home Screen. Free and private.">
+<meta property="og:image" content="https://islamic-fasting-calendar.vercel.app/assets/widgets-hero.webp">
+<meta property="og:url" content="https://islamic-fasting-calendar.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: split hero, a widget showcase, alternating screenshot rows, then a grid of small tiles. Same materials as the app: paper, ink serif, forest and brass. */
+:root {
+  --paper: #F3F1E9; --sheet: #FFFDF7; --wash: #E6EEE2; --ink: #142E28; --forest: #315A48; --brass: #DABE83; --brass-ink: #8A6A33;
+  --muted: #5E6B62; --line: #DCDFD3; --frame: #1B2A26;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Instrument Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --radius: 22px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #111917; --sheet: #18221F; --wash: #1C2925; --ink: #ECF0EA; --forest: #9CC7AE; --brass: #D9BE84; --brass-ink: #D9BE84;
+    --muted: #A3B0A8; --line: #2A3631; --frame: #050A08;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+.eyebrow { font: 600 12px/1 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--brass-ink); }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 6px; }
 
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 80px 24px 60px;
-            background: radial-gradient(ellipse at 50% 0%, #1e3a5f 0%, #0f172a 70%);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(196,169,98,0.12) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .hero-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(196,169,98,0.15);
-            border: 1px solid rgba(196,169,98,0.3);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            color: #c4a962;
-            font-weight: 500;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
-        }
-        .icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 24px;
-            margin-bottom: 28px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #fff 30%, #c4a962);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            max-width: 600px;
-        }
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            margin-bottom: 40px;
-            max-width: 500px;
-            line-height: 1.6;
-        }
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #fff;
-            color: #0f172a;
-            text-decoration: none;
-            padding: 14px 32px;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-        }
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-        }
-        .download-btn svg { width: 24px; height: 24px; }
-        .learn-more-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 32px;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #c4a962;
-            border: 1px solid rgba(196,169,98,0.4);
-            text-decoration: none;
-            transition: background 0.2s, border-color 0.2s;
-        }
-        .learn-more-btn:hover {
-            background: rgba(196,169,98,0.1);
-            border-color: rgba(196,169,98,0.6);
-        }
-        .hero-image {
-            margin-top: 56px;
-            max-width: 720px;
-            width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        .scroll-hint {
-            position: absolute;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            color: #475569;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(8px); }
-        }
+/* Header */
+.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 500 19px/1 var(--display); }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.top nav { display: flex; align-items: center; gap: 22px; font-size: 15px; }
+.top nav a:not(.store) { text-decoration: none; color: var(--muted); }
+.top nav a:not(.store):hover { color: var(--ink); }
+@media (max-width: 720px) { .top nav a:not(.store) { display: none; } }
 
-        /* Section base */
-        section { padding: 100px 24px; }
-        .section-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #c4a962;
-            margin-bottom: 12px;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #fff;
-        }
-        .section-desc {
-            font-size: 1.05rem;
-            color: #94a3b8;
-            line-height: 1.7;
-            max-width: 600px;
-        }
-        .section-desc.center { margin: 0 auto; text-align: center; }
+/* App Store button */
+.store { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--paper); text-decoration: none; border-radius: 12px; padding: 10px 18px 10px 14px; line-height: 1.1; }
+.store svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
+.store small { display: block; font-size: 11px; opacity: .8; }
+.store strong { display: block; font-size: 17px; font-weight: 600; }
+.store.compact { padding: 8px 14px; border-radius: 10px; }
+.store.compact strong { font-size: 14px; }
 
-        /* Features grid */
-        .features-section {
-            background: linear-gradient(180deg, #0f172a 0%, #111c30 100%);
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin-top: 48px;
-        }
-        .feature-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 32px 28px;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(196,169,98,0.3);
-        }
-        .feature-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-        }
-        .feature-icon.green { background: rgba(34,197,94,0.12); }
-        .feature-icon.gold { background: rgba(196,169,98,0.15); }
-        .feature-icon.blue { background: rgba(59,130,246,0.12); }
-        .feature-icon.purple { background: rgba(168,85,247,0.12); }
-        .feature-icon.orange { background: rgba(249,115,22,0.12); }
-        .feature-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #e2e8f0;
-        }
-        .feature-card p {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
+/* Hero */
+.hero { padding-block: 56px 32px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: 48px; align-items: center; }
+.hero h1 { font-size: clamp(40px, 6.2vw, 72px); line-height: 1.02; margin-block: 18px 20px; }
+.hero h1 em { font-style: italic; color: var(--forest); }
+.hero p.lede { font-size: 19px; color: var(--muted); max-width: 34ch; margin: 0 0 28px; }
+.hero .facts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; font-size: 14px; color: var(--muted); padding: 0; list-style: none; }
+.hero .facts li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--brass); margin-right: 8px; vertical-align: middle; }
+.phone { position: relative; border-radius: 46px; background: var(--frame); padding: 10px; box-shadow: 0 40px 80px -30px rgba(20, 46, 40, .45); max-width: 340px; margin-inline: auto; }
+.phone img { border-radius: 37px; }
+.hero .phone { transform: rotate(3deg); }
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
+  .hero .phone { max-width: 280px; transform: none; }
+}
 
-        /* How it works */
-        .how-section { background: #0f172a; }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
-            margin-top: 48px;
-            text-align: center;
-        }
-        .step-number {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c4a962, #a08540);
-            color: #0f172a;
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-        .step h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #e2e8f0;
-        }
-        .step p {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
+/* Widgets showcase */
+.widgets { padding-block: 72px; }
+.widgets .head { display: grid; gap: 14px; max-width: 640px; margin-bottom: 32px; }
+.widgets h2, .rows h2, .tiles h2, .cta h2 { font-size: clamp(32px, 4.4vw, 48px); line-height: 1.08; }
+.widgets .head p { margin: 0; color: var(--muted); font-size: 18px; }
+.showcase { border-radius: 28px; overflow: hidden; border: 1px solid var(--line); background: var(--wash); }
+.widget-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.widget-list div { background: var(--sheet); border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; }
+.widget-list h3 { font-size: 21px; margin-bottom: 6px; }
+.widget-list p { margin: 0; color: var(--muted); font-size: 15px; }
+.widget-list .where { display: block; font: 600 11px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--forest); margin-bottom: 12px; }
+@media (max-width: 760px) { .widget-list { grid-template-columns: 1fr; } }
 
-        /* Stats */
-        .stats-section {
-            background: linear-gradient(180deg, #0f172a 0%, #0c1322 100%);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 32px;
-            margin-top: 48px;
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #c4a962, #e8d5a0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
+/* Alternating feature rows */
+.rows { padding-block: 32px 72px; display: grid; gap: 88px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.row:nth-child(even) .shot { order: 2; }
+.row .shot { display: flex; justify-content: center; background: var(--wash); border-radius: 28px; padding: 44px 24px 0; overflow: hidden; }
+.row .shot .phone { max-width: 290px; border-bottom-left-radius: 0; border-bottom-right-radius: 0; padding-bottom: 0; margin-bottom: -2px; box-shadow: none; }
+.row .shot .phone img { border-bottom-left-radius: 0; border-bottom-right-radius: 0; aspect-ratio: 1206 / 1900; object-fit: cover; object-position: top; }
+.row .copy { display: grid; gap: 16px; }
+.row .copy p { margin: 0; color: var(--muted); max-width: 46ch; }
+.row ul { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 16px; }
+.row li { padding-left: 22px; position: relative; }
+.row li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 1.5px; background: var(--brass); }
+@media (max-width: 860px) {
+  .rows { gap: 64px; }
+  .row { grid-template-columns: 1fr; gap: 28px; }
+  .row:nth-child(even) .shot { order: 0; }
+}
 
-        /* Highlights */
-        .highlights-section {
-            background: #111c30;
-        }
-        .highlight-list {
-            margin-top: 48px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        .highlight-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 28px;
-        }
-        .highlight-check {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(34,197,94,0.12);
-            color: #22c55e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        .highlight-item h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 4px;
-        }
-        .highlight-item p {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
+/* Small-touches tiles */
+.tiles { padding-block: 72px; border-top: 1px solid var(--line); }
+.tiles h2 { margin-bottom: 28px; }
+.grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.tile { background: var(--sheet); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: grid; gap: 8px; align-content: start; }
+.tile h3 { font-size: 22px; }
+.tile p { margin: 0; color: var(--muted); font-size: 15px; }
+.tile.w2 { grid-column: span 2; } .tile.w3 { grid-column: span 3; } .tile.w4 { grid-column: span 4; }
+.tile.dark { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.tile.dark p { color: color-mix(in srgb, var(--paper) 75%, transparent); }
+.tile.dark .eyebrow { color: var(--brass); }
+.langs { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; font-size: 15px; }
+.langs span { white-space: nowrap; }
+.big { font: 400 56px/1 var(--display); color: var(--forest); font-variant-numeric: tabular-nums; }
+.tile.dark .big { color: var(--brass); }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile.w2, .tile.w3, .tile.w4 { grid-column: span 2; } .tile.half { grid-column: span 1; } }
+@media (max-width: 520px) { .tile.half { grid-column: span 2; } }
 
-        /* CTA */
-        .cta-section {
-            background: radial-gradient(ellipse at 50% 100%, #1e3a5f 0%, #0f172a 70%);
-            text-align: center;
-            padding: 100px 24px 80px;
-        }
-        .cta-section h2 {
-            font-size: 2.4rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #fff;
-        }
-        .cta-section p {
-            font-size: 1.05rem;
-            color: #94a3b8;
-            margin-bottom: 36px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
+/* Closing call to action */
+.cta { padding-block: 24px 80px; }
+.cta .box { background: var(--ink); color: var(--paper); border-radius: 32px; padding: clamp(32px, 6vw, 64px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center; position: relative; overflow: hidden; }
+.cta .box p { margin: 12px 0 0; color: color-mix(in srgb, var(--paper) 72%, transparent); max-width: 44ch; }
+.cta .store { background: var(--paper); color: var(--ink); }
+.cta .arch { position: absolute; right: -40px; bottom: -120px; width: 320px; opacity: .35; pointer-events: none; }
+@media (max-width: 720px) { .cta .box { grid-template-columns: 1fr; } .cta .arch { display: none; } }
 
-        /* Footer */
-        .footer {
-            background: #080d17;
-            padding: 40px 24px;
-            text-align: center;
-        }
-        .footer-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-bottom: 20px;
-        }
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-        .footer-links a:hover { color: #c4a962; }
-        .footer-copy {
-            color: #475569;
-            font-size: 0.8rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            h1 { font-size: 2.2rem; }
-            .section-title { font-size: 1.7rem; }
-            .cta-section h2 { font-size: 1.8rem; }
-            .hero { padding: 60px 20px 80px; }
-            section { padding: 70px 20px; }
-            .stat-number { font-size: 2.2rem; }
-            .highlight-item { flex-direction: column; gap: 12px; }
-        }
-    </style>
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; font-size: 14px; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; align-items: center; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); text-decoration: underline; }
+</style>
 </head>
 <body>
 
-    <!-- Hero -->
-    <section class="hero">
-        <span class="hero-badge">Ramadan 1447 / 2026</span>
-        <img src="icon.png" alt="Ramadan Tracker" class="icon">
-        <h1>Make This Your Best Ramadan Yet</h1>
-        <p class="hero-subtitle">
-            Prayer times, fasting tracker, Quran goals, daily duas, and everything you need to stay consistent throughout the blessed month.
-        </p>
-        <div class="hero-buttons">
-            <a href="https://apps.apple.com/us/app/ramadan-fasting-prayer-times/id6758569733" class="download-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                Download on the App Store
-            </a>
-            <a href="#features" class="learn-more-btn">See Features</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="icon.png" alt="" width="32" height="32">Islamic Fasting Calendar</a>
+    <nav aria-label="Main">
+      <a href="#widgets">Widgets</a>
+      <a href="#features">Features</a>
+      <a href="privacy.html">Privacy</a>
+      <a class="store compact" href="https://apps.apple.com/app/id6758569733"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.68 0-1.74-.78-2.86-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.65-.39 6.58 1.1 8.74.73 1.05 1.6 2.23 2.73 2.19 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.5zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.67-.92 2.66.97.07 1.96-.49 2.56-1.21z"/></svg><span><strong>Download</strong></span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Sunnah fasting · prayer times · duas</span>
+        <h1>Fast on the <em>right days</em>, all year round.</h1>
+        <p class="lede">Plan Mondays and Thursdays, the White Days, Ashura and Arafah. Keep prayer times and a daily dua on your Lock Screen.</p>
+        <a class="store" href="https://apps.apple.com/app/id6758569733"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.68 0-1.74-.78-2.86-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.65-.39 6.58 1.1 8.74.73 1.05 1.6 2.23 2.73 2.19 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.5zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.67-.92 2.66.97.07 1.96-.49 2.56-1.21z"/></svg><span><small>Download on the</small><strong>App Store</strong></span></a>
+        <ul class="facts">
+          <li>Free</li><li>No account</li><li>Works offline</li><li>22 languages</li>
+        </ul>
+      </div>
+      <div class="phone"><img src="assets/screen-fasting.webp" alt="The app's home screen during a Sunnah fast, counting down to iftar with today's prayer times above" width="600" height="1305" fetchpriority="high"></div>
+    </div>
+  </section>
+
+  <section class="widgets" id="widgets">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">New in 1.0.9</span>
+        <h2>Duas and prayer times, without opening the app.</h2>
+        <p>Three widgets for your Lock Screen and Home Screen. They follow the language you chose in the app and stay up to date on their own.</p>
+      </div>
+      <div class="showcase"><img src="assets/widgets-hero.webp" alt="An iPhone Lock Screen showing the Maghrib countdown and the daily dua, with the Daily Dua and Next Prayer widgets beside it" width="1600" height="838" loading="lazy"></div>
+      <div class="widget-list">
+        <div><span class="where">Lock Screen · Home Screen</span><h3>Next Prayer</h3><p>A live countdown to the next prayer, with the time of the one before it.</p></div>
+        <div><span class="where">Lock Screen · Home Screen</span><h3>Daily Dua</h3><p>A short, authentic dua with its source, new every day.</p></div>
+        <div><span class="where">Lock Screen · Home Screen</span><h3>Fasting Timer</h3><p>On a fasting day, counts down to iftar, or to suhoor before dawn.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap rows" id="features" aria-label="Features">
+    <article class="row">
+      <div class="shot"><div class="phone"><img src="assets/screen-calendar.webp" alt="The fasting calendar for October, with recommended fasting days marked" width="600" height="1305" loading="lazy"></div></div>
+      <div class="copy">
+        <span class="eyebrow">Sunnah fasting</span>
+        <h2>Know when to fast.</h2>
+        <p>The calendar marks the recommended days so you can plan ahead, then keep track of every fast you keep.</p>
+        <ul><li>Mondays and Thursdays, the White Days, Ashura, Arafah and six days of Shawwal</li><li>Mark a fast as completed, broken or excused</li><li>Your full Ramadan calendar when the month returns</li></ul>
+      </div>
+    </article>
+    <article class="row">
+      <div class="shot"><div class="phone"><img src="assets/screen-prayer.webp" alt="Today's prayer schedule with Fajr, sunrise, Dhuhr, Asr, Maghrib and Isha times" width="600" height="1305" loading="lazy"></div></div>
+      <div class="copy">
+        <span class="eyebrow">Prayer times</span>
+        <h2>Every prayer, on time.</h2>
+        <p>Accurate times for where you are, with the calculation method your community follows.</p>
+        <ul><li>13 methods, including Muslim World League, ISNA, Umm al-Qura, Diyanet and Karachi</li><li>Hanafi and Shafi'i Asr</li><li>Prayer notifications, with an optional Adhan sound</li></ul>
+      </div>
+    </article>
+    <article class="row">
+      <div class="shot"><div class="phone"><img src="assets/screen-quran.webp" alt="The Quran screen with the surah library and translation picker" width="600" height="1305" loading="lazy"></div></div>
+      <div class="copy">
+        <span class="eyebrow">Quran</span>
+        <h2>Read the Quran in your language.</h2>
+        <p>The complete Quran opens with a translation in your own language, from more than 20 to choose from.</p>
+        <ul><li>Set a reading goal and follow your progress</li><li>Recitations by Mishary Alafasy, Abdul Basit and others (Premium)</li><li>Bookmark the surahs you return to</li></ul>
+      </div>
+    </article>
+    <article class="row">
+      <div class="shot"><div class="phone"><img src="assets/screen-duas.webp" alt="The duas screen with the dua of the day in Arabic, transliteration and translation" width="600" height="1305" loading="lazy"></div></div>
+      <div class="copy">
+        <span class="eyebrow">Duas</span>
+        <h2>Duas for every moment.</h2>
+        <p>Authentic duas in Arabic with transliteration, translation and the source each one comes from.</p>
+        <ul><li>Duas for fasting, iftar and suhoor, mornings and evenings</li><li>Save favourites and add your own notes</li><li>Count dhikr with the built-in tasbih</li></ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="tiles">
+    <div class="wrap">
+      <h2>The details that matter.</h2>
+      <div class="grid">
+        <div class="tile w2 dark">
+          <span class="eyebrow">Privacy</span>
+          <h3>Your data stays on your phone.</h3>
+          <p>No account, no login. Works offline for everyday use.</p>
         </div>
-        <a href="https://apps.apple.com/us/app/ramadan-fasting-prayer-times/id6758569733"><img src="image.png" alt="App screenshots showing fasting tracker, iftar countdown, and prayer schedule" class="hero-image"></a>
-        <div class="scroll-hint">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <div class="tile w2">
+          <span class="eyebrow">Make-up fasts</span>
+          <h3>Keep track of qada fasts.</h3>
+          <p>Note each fast you owe and plan the days to make it up.</p>
         </div>
-    </section>
-
-    <!-- Features -->
-    <section class="features-section" id="features">
-        <div class="section-inner">
-            <span class="section-label">Features</span>
-            <h2 class="section-title">Everything for Your Ramadan Journey</h2>
-            <p class="section-desc">Built with care by Muslims, for Muslims. Every feature is designed to help you focus on what matters most during the holy month.</p>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon green">&#x1F54C;</div>
-                    <h3>Accurate Prayer Times</h3>
-                    <p>Location-based prayer times with support for multiple calculation methods including Diyanet, MWL, ISNA, and more. Get notified before each prayer.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon gold">&#x1F319;</div>
-                    <h3>Fasting Countdown</h3>
-                    <p>Live suhoor and iftar countdown timers so you always know exactly how long until your fast begins or ends.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon blue">&#x1F4D6;</div>
-                    <h3>Quran Reading Tracker</h3>
-                    <p>Set a daily Quran reading goal and track your juz progress. Stay on pace to complete the Quran during Ramadan.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon purple">&#x1F932;</div>
-                    <h3>Daily Duas</h3>
-                    <p>A curated collection of authentic duas with Arabic text, transliteration, and translation. A new dua every day.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon orange">&#x1F4C5;</div>
-                    <h3>Hijri Calendar</h3>
-                    <p>Full Ramadan calendar with moon sighting adjustments for your country. Know exactly which day of Ramadan it is.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon green">&#x1F4FF;</div>
-                    <h3>Tasbih Counter</h3>
-                    <p>Digital tasbih with haptic feedback. Track your daily dhikr and build a consistent remembrance habit.</p>
-                </div>
-            </div>
+        <div class="tile w2">
+          <span class="eyebrow">Zakat</span>
+          <h3>Zakat, worked out.</h3>
+          <p>Gold, silver, cash and investments, plus Zakat al-Fitr before Eid, in 11 currencies.</p>
         </div>
-    </section>
-
-    <!-- How it works -->
-    <section class="how-section">
-        <div class="section-inner" style="text-align:center;">
-            <span class="section-label">Get Started</span>
-            <h2 class="section-title">Ready in Under a Minute</h2>
-            <p class="section-desc center">No account needed. Just download, set your location, and you're all set for Ramadan.</p>
-
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Download the App</h3>
-                    <p>Free on the App Store. No sign-up required.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Set Your Location</h3>
-                    <p>Automatic detection or manual entry for accurate prayer times.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Start Your Ramadan</h3>
-                    <p>Track fasting, read Quran, make dua, and build streaks.</p>
-                </div>
-            </div>
+        <div class="tile w4">
+          <span class="eyebrow">22 languages</span>
+          <h3>In the language you pray in.</h3>
+          <div class="langs" aria-label="Supported languages">
+            <span lang="ar">العربية</span><span lang="ur">اردو</span><span lang="hi">हिन्दी</span><span>Türkçe</span><span>Bahasa Indonesia</span><span>Bahasa Melayu</span><span lang="bn">বাংলা</span><span lang="fa">فارسی</span><span>Français</span><span>Deutsch</span><span>Русский</span><span>Oʻzbekcha</span><span>English</span><span>Español</span><span>Italiano</span><span>Nederlands</span><span>Português</span><span lang="ml">മലയാളം</span><span lang="th">ไทย</span><span lang="zh">中文</span><span lang="ja">日本語</span><span lang="ko">한국어</span>
+          </div>
         </div>
-    </section>
-
-    <!-- Stats / Social proof -->
-    <section class="stats-section">
-        <div class="section-inner" style="text-align:center;">
-            <span class="section-label">Built for the Ummah</span>
-            <h2 class="section-title">Trusted by Muslims Worldwide</h2>
-            <div class="stats-grid">
-                <div>
-                    <div class="stat-number">20+</div>
-                    <div class="stat-label">Languages Supported</div>
-                </div>
-                <div>
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Calculation Methods</div>
-                </div>
-                <div>
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Countries Covered</div>
-                </div>
-                <div>
-                    <div class="stat-number">30</div>
-                    <div class="stat-label">Days of Guidance</div>
-                </div>
-            </div>
+        <div class="tile w2 half">
+          <span class="eyebrow">Hijri calendar</span>
+          <h3>Blessed days ahead.</h3>
+          <p>Countdowns to Ramadan, both Eids, Ashura, Arafah and Dhul-Hijjah.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Highlights -->
-    <section class="highlights-section">
-        <div class="section-inner">
-            <span class="section-label">Why This App</span>
-            <h2 class="section-title">Designed Around Your Worship</h2>
-            <p class="section-desc">Not just another prayer times app. Every detail is crafted to help you build lasting habits during Ramadan and beyond.</p>
-
-            <div class="highlight-list">
-                <div class="highlight-item">
-                    <div class="highlight-check">&#10003;</div>
-                    <div>
-                        <h3>Streaks & Accountability</h3>
-                        <p>Track your daily fasting streaks, set personal goals, and log reflections. See your progress grow throughout the month.</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-check">&#10003;</div>
-                    <div>
-                        <h3>Smart Notifications</h3>
-                        <p>Get reminded before Suhoor, at Iftar, and for each prayer. Customizable timing so notifications fit your schedule.</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-check">&#10003;</div>
-                    <div>
-                        <h3>Works Offline</h3>
-                        <p>Prayer times are cached locally. The app works perfectly without an internet connection once your location is set.</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-check">&#10003;</div>
-                    <div>
-                        <h3>Charity & Sadaqah Tracking</h3>
-                        <p>Log your daily charity giving and track your generosity throughout Ramadan. Set goals and watch your contributions add up.</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <div class="highlight-check">&#10003;</div>
-                    <div>
-                        <h3>Beautiful Dark & Light Themes</h3>
-                        <p>Easy on the eyes during late-night Taraweeh or early Suhoor. Automatic theme switching based on your device settings.</p>
-                    </div>
-                </div>
-            </div>
+  <section class="cta">
+    <div class="wrap">
+      <div class="box">
+        <div>
+          <h2>Ready for your next fast.</h2>
+          <p>Free on iPhone. Premium adds Quran recitation, offline Quran downloads and extra themes.</p>
         </div>
-    </section>
+        <a class="store" href="https://apps.apple.com/app/id6758569733"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.68 0-1.74-.78-2.86-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.65-.39 6.58 1.1 8.74.73 1.05 1.6 2.23 2.73 2.19 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.5zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.67-.92 2.66.97.07 1.96-.49 2.56-1.21z"/></svg><span><small>Download on the</small><strong>App Store</strong></span></a>
+        <svg class="arch" viewBox="0 0 294 532" aria-hidden="true"><path d="M0 532 V161 C0 88 94 47 147 0 C200 47 294 88 294 161 V532" fill="none" stroke="#DABE83" stroke-width="2"/><path d="M14 532 V166 C14 98 101 61 147 20 C193 61 280 98 280 166 V532" fill="none" stroke="#DABE83" stroke-width="1" opacity=".55"/></svg>
+      </div>
+    </div>
+  </section>
+</main>
 
-    <!-- Final CTA -->
-    <section class="cta-section">
-        <h2>Start Your Ramadan Journey Today</h2>
-        <p>Join thousands of Muslims using the app to make the most of the blessed month. Free to download.</p>
-        <a href="https://apps.apple.com/us/app/ramadan-fasting-prayer-times/id6758569733" class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            Download on the App Store
-        </a>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-links">
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="mailto:ramadantracker@proton.me">Contact</a>
-            </div>
-            <p class="footer-copy">&copy; 2026 Ramadan - Fasting & Prayer Times. All rights reserved.</p>
-        </div>
-    </footer>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Islamic Fasting Calendar</span>
+    <nav aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
+      <a href="mailto:ramadantracker@proton.me">ramadantracker@proton.me</a>
+    </nav>
+  </div>
+</footer>
 
 </body>
 </html>
